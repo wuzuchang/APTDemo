@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+    implementation project(':findview-annotation')
+    //使用AutoService注解,这里使用compileOnly就行，因为AutoService注解生命周期是在编译期的，具体可以看源码：https://github.com/google/auto/blob/master/service/annotations/src/main/java/com/google/auto/service/AutoService.java
+    compileOnly 'com.google.auto.service:auto-service-annotations:1.0-rc7'
+    //AutoService注解处理器用于自动为 JAVA Processor 生成 META-INF 信息。
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'
+    //快速生成.java文件的库
+    implementation 'com.squareup:javapoet:1.10.0'
+}

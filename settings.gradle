@@ -1,0 +1,5 @@
+include ':findview-api'
+include ':findview-compiler'
+include ':findview-annotation'
+include ':app'
+rootProject.name = "MyAPTDemo"
