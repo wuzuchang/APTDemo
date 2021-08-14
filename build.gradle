@@ -3,10 +3,13 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url uri('./repos') //指定本地maven的路径，在项目根目录下
+        }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.1"
-
+        classpath "com.android.tools.build:gradle:4.2.0"
+        classpath 'com.wzc.findview:FindViwPlugin:1.0.0-SNAPSHOT'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

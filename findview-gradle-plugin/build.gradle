@@ -1,0 +1,37 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'  //要想发布到Maven，此插件必须使用
+
+dependencies {
+    //gradle sdk
+    implementation gradleApi()
+    //groovy sdk
+    implementation localGroovy()
+    //实现Transform的时候会用到,gradle插件版本:https://developer.android.com/studio/releases/gradle-plugin?hl=zh-cn#updating-gradle
+    implementation 'com.android.tools.build:gradle:4.1.0'
+    //ASM依赖
+//    implementation 'org.ow2.asm:asm:9.2'
+//    implementation 'org.ow2.asm:asm-util:9.2'
+//    implementation 'org.ow2.asm:asm-commons:9.2'
+}
+
+repositories {
+    jcenter()
+}
+
+def group = 'com.wzc.findview' //组
+def version = '1.0.0-SNAPSHOT' //版本
+def artifactId = 'FindViwPlugin' //唯一标示
+
+
+//将插件打包上传到本地maven仓库
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = group
+            pom.artifactId = artifactId
+            pom.version = version
+            //指定本地maven的路径，在项目根目录下
+            repository(url: uri('../repos'))
+        }
+    }
+}

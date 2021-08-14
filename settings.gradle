@@ -1,3 +1,4 @@
+include ':findview-gradle-plugin'
 include ':findview-api'
 include ':findview-compiler'
 include ':findview-annotation'
