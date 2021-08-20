@@ -1,6 +1,8 @@
 package com.wzc.findview.gradle.plugin.launch.core;
 
 
+import com.wzc.findview.gradle.plugin.launch.utils.Setting;
+
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -27,49 +29,62 @@ public class FindViewCodeGenerator extends AdviceAdapter {
     }
 
     /**
-     * 进入方法时插入字节码
+     * 表示 ASM 开始扫描这个方法
      */
     @Override
-    protected void onMethodEnter() {
-        super.onMethodEnter();
+    public void visitCode() {
+        super.visitCode();
     }
 
     /**
-     * 退出方法前可插入字节码
+     * 进入这个方法
+     */
+    @Override
+    protected void onMethodEnter() {
+        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+        mv.visitLdcInsn("onMethodEnter");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+        mv.visitMethodInsn(INVOKESTATIC, "com/wzc/findview/api/BindViewHelper", "loadSwitch", "()V", false);
+    }
+
+    /**
+     * 即将从这个方法退出
      * @param opcode
      */
 
     @Override
     protected void onMethodExit(int opcode) {
-        super.onMethodExit(opcode);
+        if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
+            mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+            mv.visitLdcInsn("onMethodExit");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+        }
     }
 
     /**
-     * 访问操作数指令
+     * 方法中扫描到的visitInsn指令
      * @param opcode
      */
     @Override
     public void visitInsn(int opcode) {
-        System.out.println("FindViewCodeGenerator>>>visitInsn>>>opcode="+ opcode);
         super.visitInsn(opcode);
     }
 
+    /**
+     * 该方法是 visitEnd 之前调用的方法，可以反复调用。用以确定类方法在执行时候的堆栈大小。
+     * @param maxStack
+     * @param maxLocals
+     */
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+    public void visitMaxs(int maxStack, int maxLocals) {
+        super.visitMaxs(maxStack+16, maxLocals);
     }
 
+    /**
+     * 表示方法扫码完毕
+     */
     @Override
-    public void visitVarInsn(int opcode, int var) {
-        System.out.println("FindViewCodeGenerator>>>visitVarInsn>>>opcode="+ opcode + ", var=" + var);
-        super.visitVarInsn(opcode, var);
-    }
-
-    @Override
-    public void visitCode() {
-        super.visitCode();
-        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        mv.visitLdcInsn("hahaha");
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+    public void visitEnd() {
+        super.visitEnd();
     }
 }

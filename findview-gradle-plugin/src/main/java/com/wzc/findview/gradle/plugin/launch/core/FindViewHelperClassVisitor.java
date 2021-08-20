@@ -57,7 +57,7 @@ public class FindViewHelperClassVisitor extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         System.out.println("Method======" + getAccess(access) + " " + descriptor + " " + name + "()");
         MethodVisitor methodVisitor = super.visitMethod(access, name, descriptor, signature, exceptions);
-        if ("loadSwitch".equals(name)) {
+        if ("bind".equals(name)) {
             methodVisitor = new FindViewCodeGenerator(Opcodes.ASM7, methodVisitor, access, name, descriptor);
         }
         return methodVisitor;

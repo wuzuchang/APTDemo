@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'com.wzc.findviewid'
-    id 'com.wzc.test.plugin'
+    // buildSrc 目录下的插件如果注册了Transform在application中使用会导致app安装失败，但是rebuild的成功的
+    // id 'com.wzc.test.plugin'
 }
 
 android {

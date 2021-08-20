@@ -11,9 +11,8 @@ public class BindViewHelper {
 
     public static void bind(Activity activity){
         try {
-            loadSwitch();
             if (mShowLog){
-                Log.d("wzc","gradle plugin modified this variable");
+                Log.d("wzc>>>>","gradle plugin modified this variable");
             }
             Class<?> clazz = activity.getClass().getClassLoader().loadClass(activity.getClass().getCanonicalName() + "_ViewBinding");
             Constructor constructor = clazz.getConstructor(activity.getClass());
@@ -25,6 +24,6 @@ public class BindViewHelper {
     }
 
     private static void loadSwitch() {
-        mShowLog = false;
+        mShowLog = true;
     }
 }
