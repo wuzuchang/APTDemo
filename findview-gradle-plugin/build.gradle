@@ -7,7 +7,7 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
     //实现Transform的时候会用到,gradle插件版本:https://developer.android.com/studio/releases/gradle-plugin?hl=zh-cn#updating-gradle
-    implementation 'com.android.tools.build:gradle:4.1.0'
+    implementation 'com.android.tools.build:gradle:4.2.0' //自带ASM7.0
     //ASM依赖
 //    implementation 'org.ow2.asm:asm:9.2'
 //    implementation 'org.ow2.asm:asm-util:9.2'
