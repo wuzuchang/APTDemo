@@ -1,5 +1,5 @@
 apply plugin: 'groovy'
-apply plugin: 'maven'  //要想发布到Maven，此插件必须使用
+apply plugin: 'maven-publish'  //要想发布到Maven，此插件必须使用
 
 dependencies {
     //gradle sdk
@@ -18,20 +18,21 @@ repositories {
     jcenter()
 }
 
-def group = 'com.wzc.findview' //组
-def version = '1.0.0-SNAPSHOT' //版本
-def artifactId = 'FindViwPlugin' //唯一标示
-
-
 //将插件打包上传到本地maven仓库
-uploadArchives {
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.wzc.findview' //组
+            artifactId = 'FindViwPlugin' //唯一标示
+            version = '1.1.0-SNAPSHOT' //版本
+            from components.java
+        }
+    }
     repositories {
-        mavenDeployer {
-            pom.groupId = group
-            pom.artifactId = artifactId
-            pom.version = version
-            //指定本地maven的路径，在项目根目录下
-            repository(url: uri('../repos'))
+        maven {
+            def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+            def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
         }
     }
 }

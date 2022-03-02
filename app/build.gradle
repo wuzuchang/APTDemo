@@ -1,11 +1,10 @@
 plugins {
     id 'com.android.application'
-    id 'com.wzc.findviewid'
+   // id 'com.wzc.findviewid'
 }
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.wzc.gradle.myaptdemo"
